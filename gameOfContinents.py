@@ -8,34 +8,48 @@ pygame.init()
 # Set up display
 width, height = 900, 900
 screen = pygame.display.set_mode((width, height))
-pygame.display.set_caption("Conway's Game of Life")
+pygame.display.set_caption("Modified Conway's Game of Life")
 
 # Set up colors
 black = (0, 0, 0)
 white = (255, 255, 255)
 
-# set up pause
+# Set up pause
 pause = False
 
 # Set up grid
 cell_size = 3
 rows, cols = height // cell_size, width // cell_size
-grid = np.random.choice([0, 1], size=(rows, cols))
+grid = np.zeros((rows, cols), dtype=int)
 
-# Function to update the grid based on Conway's Game of Life rules
+# Function to initialize the circle
+def initialize_circle():
+    global grid
+    center_x, center_y = rows // 2, cols // 2
+    radius = 5  # Adjust the radius as needed
+
+    for i in range(center_x - radius, center_x + radius + 1):
+        for j in range(center_y - radius, center_y + radius + 1):
+            if 0 <= i < rows and 0 <= j < cols:
+                grid[i, j] = 1
+
+# Initialize the circle at the beginning
+initialize_circle()
+
+# Function to update the grid based on modified rules
 def update_grid():
     global grid
     new_grid = grid.copy()
 
-    for i in range(rows):
-        for j in range(cols):
+    for i in range(1, rows - 1):
+        for j in range(1, cols - 1):
             neighbors = sum(grid[i-1:i+2, j-1:j+2].ravel()) - grid[i, j]
 
             if grid[i, j] == 1:
                 if neighbors < 2 or neighbors > 3:
                     new_grid[i, j] = 0
             else:
-                if neighbors == 3:
+                if neighbors == 3 and np.random.choice([True, False], p=[0.5, 0.5]):
                     new_grid[i, j] = 1
 
     grid = new_grid
@@ -48,12 +62,10 @@ while True:
             sys.exit()
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
-                if pause == False:
-                    pause = True
-                elif pause == True:
-                    pause = False
+                pause = not pause
+
     # Update game logic
-    if pause == False:
+    if not pause:
         update_grid()
 
     # Clear the screen
