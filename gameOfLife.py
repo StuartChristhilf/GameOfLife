@@ -6,7 +6,7 @@ import numpy as np
 pygame.init()
 
 # Set up display
-width, height = 800, 600
+width, height = 900, 900
 screen = pygame.display.set_mode((width, height))
 pygame.display.set_caption("Conway's Game of Life")
 
@@ -18,7 +18,7 @@ white = (255, 255, 255)
 pause = False
 
 # Set up grid
-cell_size = 5
+cell_size = 3
 rows, cols = height // cell_size, width // cell_size
 grid = np.random.choice([0, 1], size=(rows, cols))
 
@@ -51,10 +51,7 @@ while True:
                 if pause == False:
                     pause = True
                 elif pause == True:
-                    pause = False
-                
-           
-
+                    pause = False             
     # Update game logic
     if pause == False:
         update_grid()
