@@ -8,16 +8,13 @@ pygame.init()
 # Set up display
 width, height = 750, 750
 screen = pygame.display.set_mode((width, height))
-pygame.display.set_caption("Colorful Pixel Wars")
+pygame.display.set_caption("Continent Simulator")
 
 # Set up colors
 white = (255, 255, 255)
 black = (0, 0, 0)
 blue = (0, 50, 255)
-grey = (125, 125, 125)
 green = (0, 255, 50)
-brown = (130, 100, 50)
-orange = (255, 175, 0)
 
 # Set up pause
 pause = False
@@ -25,7 +22,7 @@ pause = False
 # Set up grid
 cell_size = 10
 rows, cols = height // cell_size, width // cell_size
-teams = [blue, grey, green, brown, orange]
+teams = [blue, green]
 grid = np.random.choice([0, *range(1, len(teams) + 1)], size=(rows, cols))
 
 # Function to get neighbors of a cell
